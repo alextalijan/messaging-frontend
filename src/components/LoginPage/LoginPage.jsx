@@ -50,22 +50,22 @@ function LoginPage() {
       <h1>Log In</h1>
       <form>
         <label>
+          Username:
           <input
             type="text"
             name="username"
             value={username}
             onChange={handleInputChange}
           />
-          Username:
         </label>
         <label>
+          Password:
           <input
             type="password"
             name="password"
             value={password}
             onChange={handleInputChange}
           />
-          Password:
         </label>
         <button type="button" onClick={handleLogin}>
           Log In

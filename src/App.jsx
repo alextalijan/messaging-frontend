@@ -4,6 +4,8 @@ import UserContext from './contexts/UserContext';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Layout from './components/Layout/Layout';
 import WelcomePage from './components/WelcomePage/WelcomePage';
+import LoginPage from './components/LoginPage/LoginPage';
+import RegisterPage from './components/RegisterPage/RegisterPage';
 import { useState } from 'react';
 
 function App() {
@@ -24,12 +26,12 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
 
           {/* Protected Routes */}
-          <Route element={<ProtectedRoute />}>
+          {/* <Route element={<ProtectedRoute />}>
             <Route element={<Layout />}>
               <Route path="/chats" element={<ChatPage />} />
               <Route path="/profile" element={<ProfilePage />} />
             </Route>
-          </Route>
+          </Route> */}
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
