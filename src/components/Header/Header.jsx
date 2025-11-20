@@ -10,7 +10,7 @@ function Header() {
       {user ? (
         <>
           <Link to="/">Chats</Link>
-          <Link to="/account">My Account</Link>
+          <Link to="/profile">My Profile</Link>
         </>
       ) : (
         <>
