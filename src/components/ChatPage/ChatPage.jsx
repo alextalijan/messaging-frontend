@@ -1,9 +1,16 @@
 import { useContext, useEffect, useState } from 'react';
 import UserContext from '../../contexts/UserContext';
+import Chat from '../Chat/Chat';
+import Message from '../Message/Message';
 
 function ChatPage() {
   const [chats, setChats] = useState([]);
+  const [loadingChats, setLoadingChats] = useState(true);
+  const [chatsError, setChatsError] = useState(null);
   const [activeChatId, setActiveChatId] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [loadingMessages, setLoadingMessages] = useState(true);
+  const [messagesError, setMessagesError] = useState(null);
   const { user } = useContext(UserContext);
 
   // Fetch user's chats
@@ -14,14 +21,38 @@ function ChatPage() {
       .then((response) => response.json())
       .then((response) => {
         if (!response.success) {
-          return alert(response.message);
+          return setChatsError(response.message);
         }
 
         // Load the chats and set the active chat to the latest one
         setChats(response.chats);
         setActiveChatId(response.chats[0].id);
-      });
+      })
+      .catch((err) => setChatsError(err.message))
+      .finally(() => setLoadingChats(false));
   }, [user.username]);
+
+  // Fetch the active chat
+  useEffect(() => {
+    // Skip on initial mount
+    if (!activeChatId) return;
+
+    fetch(import.meta.env.VITE_API + `/chats/${activeChatId}`, {
+      credentials: 'include',
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (!response.success) {
+          return setMessagesError(response.message);
+        }
+
+        setMessages(response.messages);
+      })
+      .catch((err) => {
+        setMessagesError(err.message);
+      })
+      .finally(() => setLoadingMessages(false));
+  }, [activeChatId]);
 
   return (
     <>
@@ -29,11 +60,45 @@ function ChatPage() {
       <div>
         <div>
           <h2>CHATS</h2>
-          {chats.map((chat) => {
-            return;
-          })}
+          {loadingChats ? (
+            <p>Loading chats...</p>
+          ) : chatsError ? (
+            <p>{chatsError}</p>
+          ) : (
+            chats.map((chat) => {
+              return (
+                <Chat
+                  key={chat.id}
+                  name={chat.name}
+                  lastMessage={chat.lastMessage}
+                />
+              );
+            })
+          )}
         </div>
-        <div>{/* <h2>{activeChat.name}</h2> */}</div>
+        <div>
+          {loadingMessages ? (
+            <p>Loading messages...</p>
+          ) : messagesError ? (
+            <p>{messagesError}</p>
+          ) : (
+            <>
+              <h2>
+                {/* Show the name of the active chat */}
+                {chats.filter((chat) => chat.id === activeChatId)[0].name}
+              </h2>
+              {messages.map((message) => {
+                return (
+                  <Message
+                    key={message.id}
+                    sender={message.sender.username}
+                    text={message.text}
+                  />
+                );
+              })}
+            </>
+          )}
+        </div>
       </div>
     </>
   );
