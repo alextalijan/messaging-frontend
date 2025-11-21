@@ -26,7 +26,11 @@ function ChatPage() {
 
         // Load the chats and set the active chat to the latest one
         setChats(response.chats);
-        setActiveChatId(response.chats[0].id);
+
+        // If there are any chats, set the active one to be the last one
+        if (response.chats.length > 0) {
+          setActiveChatId(response.chats[0].id);
+        }
       })
       .catch((err) => setChatsError(err.message))
       .finally(() => setLoadingChats(false));
@@ -64,6 +68,8 @@ function ChatPage() {
             <p>Loading chats...</p>
           ) : chatsError ? (
             <p>{chatsError}</p>
+          ) : chats.length === 0 ? (
+            <p>No chats yet.</p>
           ) : (
             chats.map((chat) => {
               return (
