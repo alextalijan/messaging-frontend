@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router';
 function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
   const { login } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -37,7 +38,7 @@ function LoginPage() {
       .then((response) => response.json())
       .then((response) => {
         if (!response.success) {
-          return alert('Could not log in. Please try again later.');
+          return setError(response.message);
         }
 
         login(response.user.id, response.user.username);
@@ -48,6 +49,7 @@ function LoginPage() {
   return (
     <>
       <h1>Log In</h1>
+      {error && <p>{error}</p>}
       <form>
         <label>
           Username:
