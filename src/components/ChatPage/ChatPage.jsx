@@ -87,15 +87,27 @@ function ChatPage() {
                 {/* Show the name of the active chat */}
                 {chats.filter((chat) => chat.id === activeChatId)[0].name}
               </h2>
-              {messages.map((message) => {
-                return (
-                  <Message
-                    key={message.id}
-                    sender={message.sender.username}
-                    text={message.text}
+              <div>
+                {messages.map((message) => {
+                  return (
+                    <Message
+                      key={message.id}
+                      sender={message.sender.username}
+                      text={message.text}
+                    />
+                  );
+                })}
+              </div>
+              <div>
+                <form>
+                  <input
+                    type="text"
+                    name="message"
+                    placeholder="Type message..."
                   />
-                );
-              })}
+                  <button type="button">Send</button>
+                </form>
+              </div>
             </>
           )}
         </div>
