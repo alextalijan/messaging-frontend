@@ -30,6 +30,10 @@ function ChatPage() {
         // If there are any chats, set the active one to be the last one
         if (response.chats.length > 0) {
           setActiveChatId(response.chats[0].id);
+        } else {
+          // Else, direct the user to create a new chat
+          setLoadingMessages(false);
+          setMessagesError('Start a new chat.');
         }
       })
       .catch((err) => setChatsError(err.message))
