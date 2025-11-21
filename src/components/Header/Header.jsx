@@ -3,7 +3,7 @@ import UserContext from '../../contexts/UserContext';
 import { Link } from 'react-router';
 
 function Header() {
-  const { user } = useContext(UserContext);
+  const { user, logout } = useContext(UserContext);
 
   return (
     <header>
@@ -11,6 +11,9 @@ function Header() {
         <>
           <Link to="/">Chats</Link>
           <Link to="/profile">My Profile</Link>
+          <button type="button" onClick={() => logout()}>
+            Log Out
+          </button>
         </>
       ) : (
         <>

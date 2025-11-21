@@ -28,12 +28,27 @@ function App() {
     setUser({ id, username });
   }
 
+  function logout() {
+    fetch(import.meta.env.VITE_API + '/logout', {
+      method: 'POST',
+      credentials: 'include',
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (!response.success) {
+          return alert('Could not log out.');
+        }
+
+        setUser(null);
+      });
+  }
+
   if (loading) {
     return <p>Loading...</p>;
   }
 
   return (
-    <UserContext.Provider value={{ user, login }}>
+    <UserContext.Provider value={{ user, login, logout }}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
