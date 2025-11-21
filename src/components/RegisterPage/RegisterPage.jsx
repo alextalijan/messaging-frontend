@@ -48,7 +48,7 @@ function RegisterPage() {
     }
 
     // Register a new user
-    fetch(import.meta.env.VITE_API + '/users', {
+    fetch(import.meta.env.VITE_API + '/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
