@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 
 function RegisterPage() {
   const [username, setUsername] = useState('');
@@ -107,6 +107,9 @@ function RegisterPage() {
           Register
         </button>
       </form>
+      <p>
+        Already have an account? <Link to="/login">Log In</Link>
+      </p>
     </>
   );
 }

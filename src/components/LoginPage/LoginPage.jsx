@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import UserContext from '../../contexts/UserContext';
 import { useContext } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 
 function LoginPage() {
   const [username, setUsername] = useState('');
@@ -73,6 +73,9 @@ function LoginPage() {
           Log In
         </button>
       </form>
+      <p>
+        Don't have an account? <Link to="/register">Register</Link>
+      </p>
     </>
   );
 }
