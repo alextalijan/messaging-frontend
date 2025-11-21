@@ -1,6 +1,14 @@
 import { Link } from 'react-router';
+import UserContext from '../../contexts/UserContext';
+import { useContext } from 'react';
+import { Navigate } from 'react-router';
 
 function WelcomePage() {
+  const { user } = useContext(UserContext);
+  if (user) {
+    return <Navigate to="/chats" />;
+  }
+
   return (
     <>
       <h1>Welcome to AlexChat!</h1>
