@@ -1,8 +1,9 @@
 import { useState, useContext } from 'react';
 import UserContext from '../../contexts/UserContext';
 import { useNavigate } from 'react-router';
+import styles from './NewChatModal.module.css';
 
-function NewChatModal() {
+function NewChatModal({ close }) {
   const [people, setPeople] = useState([]);
   const [chatName, setChatName] = useState('');
   const [personInput, setPersonInput] = useState('');
@@ -93,53 +94,69 @@ function NewChatModal() {
   }
 
   return (
-    <div>
-      <h2>Create a new chat</h2>
-      {error && <p>{error}</p>}
-      <form>
-        <label>
-          Name:
-          <input
-            type="text"
-            name="name"
-            value={chatName}
-            onChange={handleInputChange}
-          />
-        </label>
-        <label>
-          People:
-          <input
-            type="text"
-            name="person"
-            value={personInput}
-            onChange={handleInputChange}
-          />
-        </label>
-        <button type="button" onClick={handlePersonAdd}>
-          Add person
-        </button>
-        {people.length > 0 && (
-          <ul>
-            {people.map((person) => {
-              return (
-                <li>
-                  {person}{' '}
-                  <button
-                    type="button"
-                    onClick={() => handlePersonRemove(person)}
-                  >
-                    Remove
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-        <button type="button" onClick={createChat}>
-          Create Chat
-        </button>
-      </form>
-    </div>
+    <>
+      <div className={styles.backdrop} onClick={close}></div>
+      <div className={styles.modal}>
+        <h2 className={styles.heading}>Create a new chat</h2>
+        {error && <p className={styles.error}>{error}</p>}
+        <form className={styles.form}>
+          <label className={styles.input}>
+            <span className={styles['input-label']}>Name:</span>
+            <input
+              type="text"
+              name="name"
+              value={chatName}
+              onChange={handleInputChange}
+              className={styles['regular-input']}
+            />
+          </label>
+          <label className={styles.input}>
+            <span className={styles['input-label']}>People:</span>
+            <input
+              type="text"
+              name="person"
+              value={personInput}
+              onChange={handleInputChange}
+              className={styles['btn-input']}
+            />
+            <button
+              type="button"
+              onClick={handlePersonAdd}
+              className={styles['add-person-btn']}
+            >
+              Add
+            </button>
+          </label>
+          {people.length > 0 && (
+            <ul className={styles['members-list']}>
+              {people.map((person) => {
+                return (
+                  <li className={styles['person-listing']}>
+                    {person}{' '}
+                    <button
+                      type="button"
+                      onClick={() => handlePersonRemove(person)}
+                      className={styles['remove-person-btn']}
+                    >
+                      Remove
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+          <div className={styles['center-btn-wrapper']}>
+            <button
+              type="button"
+              onClick={createChat}
+              className={styles['create-chat-btn']}
+            >
+              Create Chat
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 }
 

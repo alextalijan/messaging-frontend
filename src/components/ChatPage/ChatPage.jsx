@@ -131,7 +131,9 @@ function ChatPage() {
           )}
         </div>
       </div>
-      {isNewChatModalOpen && <NewChatModal />}
+      {isNewChatModalOpen && (
+        <NewChatModal close={() => setIsNewChatModalOpen(false)} />
+      )}
     </>
   );
 }
