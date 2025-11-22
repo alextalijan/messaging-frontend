@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import UserContext from '../../contexts/UserContext';
 import Chat from '../Chat/Chat';
 import Message from '../Message/Message';
+import NewChatModal from '../NewChatModal/NewChatModal';
 
 function ChatPage() {
   const [chats, setChats] = useState([]);
@@ -11,6 +12,7 @@ function ChatPage() {
   const [messages, setMessages] = useState([]);
   const [loadingMessages, setLoadingMessages] = useState(true);
   const [messagesError, setMessagesError] = useState(null);
+  const [isNewChatModalOpen, setIsNewChatModalOpen] = useState(false);
   const { user } = useContext(UserContext);
 
   // Fetch user's chats
@@ -45,7 +47,7 @@ function ChatPage() {
     // Skip on initial mount
     if (!activeChatId) return;
 
-    fetch(import.meta.env.VITE_API + `/chats/${activeChatId}`, {
+    fetch(import.meta.env.VITE_API + `/chats/${activeChatId}?page=0`, {
       credentials: 'include',
     })
       .then((response) => response.json())
@@ -68,6 +70,9 @@ function ChatPage() {
       <div>
         <div>
           <h2>CHATS</h2>
+          <button type="button" onClick={() => setIsNewChatModalOpen(true)}>
+            New Chat
+          </button>
           {loadingChats ? (
             <p>Loading chats...</p>
           ) : chatsError ? (
@@ -98,15 +103,19 @@ function ChatPage() {
                 {chats.filter((chat) => chat.id === activeChatId)[0].name}
               </h2>
               <div>
-                {messages.map((message) => {
-                  return (
-                    <Message
-                      key={message.id}
-                      sender={message.sender.username}
-                      text={message.text}
-                    />
-                  );
-                })}
+                {messages.length === 0 ? (
+                  <p>No messages yet. Be the first to send a message.</p>
+                ) : (
+                  messages.map((message) => {
+                    return (
+                      <Message
+                        key={message.id}
+                        sender={message.sender.username}
+                        text={message.text}
+                      />
+                    );
+                  })
+                )}
               </div>
               <div>
                 <form>
@@ -122,6 +131,7 @@ function ChatPage() {
           )}
         </div>
       </div>
+      {isNewChatModalOpen && <NewChatModal />}
     </>
   );
 }
