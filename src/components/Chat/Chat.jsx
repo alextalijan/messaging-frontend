@@ -2,10 +2,12 @@ function Chat({ name, lastMessage }) {
   return (
     <div>
       <span>{name}</span>
-      {lastMessage && (
+      {lastMessage ? (
         <span>
           {lastMessage.sender.username}: {lastMessage.text}
         </span>
+      ) : (
+        <p>No messages yet.</p>
       )}
     </div>
   );

@@ -90,6 +90,7 @@ function NewChatModal({ close }) {
 
         // Navigate to the home page to refresh chats
         navigate('/chats');
+        close();
       });
   }
 

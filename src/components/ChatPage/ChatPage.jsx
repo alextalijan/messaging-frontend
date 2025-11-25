@@ -13,6 +13,7 @@ function ChatPage() {
   const [loadingMessages, setLoadingMessages] = useState(true);
   const [messagesError, setMessagesError] = useState(null);
   const [isNewChatModalOpen, setIsNewChatModalOpen] = useState(false);
+  const [reloadChats, setReloadChats] = useState(false);
   const { user } = useContext(UserContext);
 
   // Fetch user's chats
@@ -40,7 +41,7 @@ function ChatPage() {
       })
       .catch((err) => setChatsError(err.message))
       .finally(() => setLoadingChats(false));
-  }, [user.username]);
+  }, [reloadChats]);
 
   // Fetch the active chat
   useEffect(() => {
@@ -132,7 +133,12 @@ function ChatPage() {
         </div>
       </div>
       {isNewChatModalOpen && (
-        <NewChatModal close={() => setIsNewChatModalOpen(false)} />
+        <NewChatModal
+          close={() => {
+            setIsNewChatModalOpen(false);
+            setReloadChats((prev) => !prev);
+          }}
+        />
       )}
     </>
   );
