@@ -98,7 +98,7 @@ function NewChatModal({ close }) {
       <div className={styles.backdrop} onClick={close}></div>
       <div className={styles.modal}>
         <h2 className={styles.heading}>Create a new chat</h2>
-        {error && <p className={styles.error}>{error}</p>}
+        <p className={styles.error}>{error}</p>
         <form className={styles.form}>
           <label className={styles.input}>
             <span className={styles['input-label']}>Name:</span>
@@ -138,7 +138,7 @@ function NewChatModal({ close }) {
                       onClick={() => handlePersonRemove(person)}
                       className={styles['remove-person-btn']}
                     >
-                      Remove
+                      x
                     </button>
                   </li>
                 );
