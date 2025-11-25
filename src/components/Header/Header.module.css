@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem 2rem;
+}
+
+.link {
+  font-size: 2rem;
+  text-decoration: none;
+  border: none;
+  background-color: transparent;
+  color: rgb(230, 25, 25);
+  transition: transform 0.3s;
+}
+
+.link:last-child {
+  margin-left: auto;
+}
+
+.link:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
