@@ -3,6 +3,7 @@ import UserContext from '../../contexts/UserContext';
 import Chat from '../Chat/Chat';
 import Message from '../Message/Message';
 import NewChatModal from '../NewChatModal/NewChatModal';
+import styles from './ChatPage.module.css';
 
 function ChatPage() {
   const [chats, setChats] = useState([]);
@@ -14,6 +15,8 @@ function ChatPage() {
   const [messagesError, setMessagesError] = useState(null);
   const [isNewChatModalOpen, setIsNewChatModalOpen] = useState(false);
   const [reloadChats, setReloadChats] = useState(false);
+  const [messageInput, setMessageInput] = useState('');
+  const [refreshMessages, setRefreshMessages] = useState(false);
   const { user } = useContext(UserContext);
 
   // Fetch user's chats
@@ -63,15 +66,46 @@ function ChatPage() {
         setMessagesError(err.message);
       })
       .finally(() => setLoadingMessages(false));
-  }, [activeChatId]);
+  }, [activeChatId, refreshMessages]);
+
+  function handleInputChange(event) {
+    setMessageInput(event.target.value);
+  }
+
+  function sendMessage() {
+    fetch(import.meta.env.VITE_API + `/chats/${activeChatId}`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        text: messageInput,
+      }),
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        if (!json.success) {
+          return alert(json.message);
+        }
+
+        setRefreshMessages((prev) => !prev);
+        setMessageInput('');
+      })
+      .catch((err) => alert(err.message));
+  }
 
   return (
     <>
-      <h1>Dashboard</h1>
-      <div>
-        <div>
-          <h2>CHATS</h2>
-          <button type="button" onClick={() => setIsNewChatModalOpen(true)}>
+      <h1 className={styles.h1}>Dashboard</h1>
+      <div className={styles['dashboard-wrapper']}>
+        <div className={styles['chats-section']}>
+          <h2 className={styles['chats-heading']}>CHATS</h2>
+          <button
+            className={styles['new-chat-btn']}
+            type="button"
+            onClick={() => setIsNewChatModalOpen(true)}
+          >
             New Chat
           </button>
           {loadingChats ? (
@@ -99,13 +133,15 @@ function ChatPage() {
             <p>{messagesError}</p>
           ) : (
             <>
-              <h2>
+              <h2 className={styles['chat-heading']}>
                 {/* Show the name of the active chat */}
                 {chats.filter((chat) => chat.id === activeChatId)[0].name}
               </h2>
-              <div>
+              <div className={styles['chat-screen']}>
                 {messages.length === 0 ? (
-                  <p>No messages yet. Be the first to send a message.</p>
+                  <p className={styles['no-messages-msg']}>
+                    No messages yet. Be the first to send a message.
+                  </p>
                 ) : (
                   messages.map((message) => {
                     return (
@@ -118,14 +154,23 @@ function ChatPage() {
                   })
                 )}
               </div>
-              <div>
-                <form>
+              <div className={styles['text-box']}>
+                <form className={styles['msg-form-wrapper']}>
                   <input
                     type="text"
                     name="message"
                     placeholder="Type message..."
+                    className={styles['msg-input']}
+                    value={messageInput}
+                    onChange={handleInputChange}
                   />
-                  <button type="button">Send</button>
+                  <button
+                    className={styles['send-msg-btn']}
+                    type="button"
+                    onClick={sendMessage}
+                  >
+                    Send
+                  </button>
                 </form>
               </div>
             </>
