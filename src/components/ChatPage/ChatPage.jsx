@@ -121,6 +121,7 @@ function ChatPage() {
                   key={chat.id}
                   name={chat.name}
                   lastMessage={chat.lastMessage}
+                  openChat={() => setActiveChatId(chat.id)}
                 />
               );
             })
@@ -132,7 +133,7 @@ function ChatPage() {
           ) : messagesError ? (
             <p>{messagesError}</p>
           ) : (
-            <>
+            <div className={styles['chat-wrapper']}>
               <h2 className={styles['chat-heading']}>
                 {/* Show the name of the active chat */}
                 {chats.filter((chat) => chat.id === activeChatId)[0].name}
@@ -173,7 +174,7 @@ function ChatPage() {
                   </button>
                 </form>
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>

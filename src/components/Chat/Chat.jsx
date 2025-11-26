@@ -1,13 +1,15 @@
-function Chat({ name, lastMessage }) {
+import styles from './Chat.module.css';
+
+function Chat({ name, lastMessage, openChat }) {
   return (
-    <div>
-      <span>{name}</span>
+    <div className={styles['chat-listing']} onClick={openChat}>
+      <span className={styles['chat-name']}>{name}</span>
       {lastMessage ? (
-        <span>
+        <span className={styles['last-msg']}>
           {lastMessage.sender.username}: {lastMessage.text}
         </span>
       ) : (
-        <p>No messages yet.</p>
+        <p className={styles['last-msg']}>No messages yet.</p>
       )}
     </div>
   );
