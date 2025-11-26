@@ -127,13 +127,13 @@ function ChatPage() {
             })
           )}
         </div>
-        <div>
+        <div className={styles['chat-wrapper']}>
           {loadingMessages ? (
             <p>Loading messages...</p>
           ) : messagesError ? (
             <p>{messagesError}</p>
           ) : (
-            <div className={styles['chat-wrapper']}>
+            <>
               <h2 className={styles['chat-heading']}>
                 {/* Show the name of the active chat */}
                 {chats.filter((chat) => chat.id === activeChatId)[0].name}
@@ -155,26 +155,25 @@ function ChatPage() {
                   })
                 )}
               </div>
-              <div className={styles['text-box']}>
-                <form className={styles['msg-form-wrapper']}>
-                  <input
-                    type="text"
-                    name="message"
-                    placeholder="Type message..."
-                    className={styles['msg-input']}
-                    value={messageInput}
-                    onChange={handleInputChange}
-                  />
-                  <button
-                    className={styles['send-msg-btn']}
-                    type="button"
-                    onClick={sendMessage}
-                  >
-                    Send
-                  </button>
-                </form>
-              </div>
-            </div>
+              <form className={styles['msg-form-wrapper']}>
+                <textarea
+                  type="text"
+                  name="message"
+                  className={styles['msg-input']}
+                  onChange={handleInputChange}
+                >
+                  {messageInput}
+                </textarea>
+                <button
+                  className={styles['send-msg-btn']}
+                  type="button"
+                  onClick={sendMessage}
+                  disabled={messageInput === ''}
+                >
+                  Send
+                </button>
+              </form>
+            </>
           )}
         </div>
       </div>
