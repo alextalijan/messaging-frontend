@@ -144,12 +144,22 @@ function ChatPage() {
                     No messages yet. Be the first to send a message.
                   </p>
                 ) : (
-                  messages.map((message) => {
+                  messages.map((message, index, messages) => {
                     return (
                       <Message
                         key={message.id}
                         sender={message.sender.username}
                         text={message.text}
+                        // If it's the last message or the next message
+                        // is not from the same person, display the name
+                        // of the sender.
+                        anotherMessage={
+                          messages.length === index + 1 ||
+                          message.sender.username !==
+                            messages[index + 1].sender.username
+                            ? false
+                            : true
+                        }
                       />
                     );
                   })
