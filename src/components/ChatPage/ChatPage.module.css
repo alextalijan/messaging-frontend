@@ -42,6 +42,7 @@
 .chat-wrapper {
   display: grid;
   grid-template-rows: 8rem 1fr 100px;
+  min-height: 0;
 }
 
 .chat-heading {
@@ -58,6 +59,9 @@
   flex-direction: column;
   gap: 0.6rem;
   padding: 0.5rem;
+  max-height: 1000px;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .msg-form-wrapper {

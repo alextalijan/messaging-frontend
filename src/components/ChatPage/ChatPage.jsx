@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 import UserContext from '../../contexts/UserContext';
 import Chat from '../Chat/Chat';
 import Message from '../Message/Message';
@@ -18,6 +18,7 @@ function ChatPage() {
   const [messageInput, setMessageInput] = useState('');
   const [refreshMessages, setRefreshMessages] = useState(false);
   const { user } = useContext(UserContext);
+  const chatBottom = useRef(null);
 
   // Fetch user's chats
   useEffect(() => {
@@ -65,8 +66,17 @@ function ChatPage() {
       .catch((err) => {
         setMessagesError(err.message);
       })
-      .finally(() => setLoadingMessages(false));
+      .finally(() => {
+        setLoadingMessages(false);
+      });
   }, [activeChatId, refreshMessages]);
+
+  // When the messages from the new chat are loaded, scroll to the bottom
+  useEffect(() => {
+    if (messages.length > 0 && messages.length <= 20) {
+      chatBottom.current.scrollIntoView();
+    }
+  }, [messages]);
 
   function handleInputChange(event) {
     setMessageInput(event.target.value);
@@ -160,6 +170,7 @@ function ChatPage() {
                             ? false
                             : true
                         }
+                        ref={messages.length === index + 1 ? chatBottom : null}
                       />
                     );
                   })
