@@ -18,6 +18,7 @@ function ChatPage() {
   const [messageInput, setMessageInput] = useState('');
   const [refreshMessages, setRefreshMessages] = useState(false);
   const { user } = useContext(UserContext);
+  const chatPage = useRef(0);
   const chatBottom = useRef(null);
 
   // Fetch user's chats
@@ -52,9 +53,16 @@ function ChatPage() {
     // Skip on initial mount
     if (!activeChatId) return;
 
-    fetch(import.meta.env.VITE_API + `/chats/${activeChatId}?page=0`, {
-      credentials: 'include',
-    })
+    // Restart the page number since the chat was changed
+    chatPage.current = 0;
+
+    fetch(
+      import.meta.env.VITE_API +
+        `/chats/${activeChatId}?page=${chatPage.current}`,
+      {
+        credentials: 'include',
+      }
+    )
       .then((response) => response.json())
       .then((response) => {
         if (!response.success) {
@@ -62,6 +70,7 @@ function ChatPage() {
         }
 
         setMessages(response.messages);
+        chatPage.current += 1;
       })
       .catch((err) => {
         setMessagesError(err.message);
@@ -103,6 +112,37 @@ function ChatPage() {
         setMessageInput('');
       })
       .catch((err) => alert(err.message));
+  }
+
+  function handleLoadingMessages(event) {
+    // If it is scrolled to the top
+    if (event.target.scrollTop === 0) {
+      // Load new messages
+      loadMoreMessages();
+    }
+  }
+
+  function loadMoreMessages() {
+    fetch(
+      import.meta.env.VITE_API +
+        `/chats/${activeChatId}?page=${chatPage.current}`,
+      {
+        credentials: 'include',
+      }
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        if (!json.success) {
+          return alert(json.message);
+        }
+
+        // If there are any more messages
+        if (json.messages.length > 0) {
+          // Increment the current page and load new messages
+          chatPage.current += 1;
+          setMessages((prev) => [...json.messages, ...prev]);
+        }
+      });
   }
 
   return (
@@ -148,7 +188,10 @@ function ChatPage() {
                 {/* Show the name of the active chat */}
                 {chats.filter((chat) => chat.id === activeChatId)[0].name}
               </h2>
-              <div className={styles['chat-screen']}>
+              <div
+                className={styles['chat-screen']}
+                onScroll={handleLoadingMessages}
+              >
                 {messages.length === 0 ? (
                   <p className={styles['no-messages-msg']}>
                     No messages yet. Be the first to send a message.
