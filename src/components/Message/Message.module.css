@@ -14,5 +14,5 @@
 }
 
 .sender {
-  align-self: flex-end;
+  position: relative;
 }
