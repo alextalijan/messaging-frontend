@@ -8,6 +8,7 @@
   border-bottom: 1px solid black;
   cursor: pointer;
   transition: background-color 0.4s;
+  background-color: white;
 }
 
 .chat-listing:hover {
