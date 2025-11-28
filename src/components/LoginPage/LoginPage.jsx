@@ -2,6 +2,7 @@ import { useState } from 'react';
 import UserContext from '../../contexts/UserContext';
 import { useContext } from 'react';
 import { useNavigate, Link } from 'react-router';
+import styles from './LoginPage.module.css';
 
 function LoginPage() {
   const [username, setUsername] = useState('');
@@ -48,33 +49,40 @@ function LoginPage() {
 
   return (
     <>
-      <h1>Log In</h1>
+      <h1 className={styles.h1}>Log In</h1>
       {error && <p>{error}</p>}
-      <form>
-        <label>
-          Username:
+      <form className={styles.form}>
+        <label className={styles.input}>
+          <span className={styles['input-name']}>Username :</span>
           <input
             type="text"
             name="username"
             value={username}
             onChange={handleInputChange}
+            className={styles['input-field']}
           />
         </label>
-        <label>
-          Password:
+        <label className={styles.input}>
+          <span className={styles['input-name']}>Password&nbsp; :</span>
           <input
             type="password"
             name="password"
             value={password}
             onChange={handleInputChange}
+            className={styles['input-field']}
           />
         </label>
-        <button type="button" onClick={handleLogin}>
-          Log In
-        </button>
+        <div className={styles['btn-container']}>
+          <button type="button" onClick={handleLogin} className={styles.btn}>
+            Log In
+          </button>
+        </div>
       </form>
-      <p>
-        Don't have an account? <Link to="/register">Register</Link>
+      <p className={styles['register-msg']}>
+        Don't have an account?{' '}
+        <Link to="/register" className={styles.link}>
+          Register
+        </Link>
       </p>
     </>
   );
