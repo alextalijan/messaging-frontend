@@ -19,8 +19,9 @@ function ChatPage() {
   const [refreshMessages, setRefreshMessages] = useState(false);
   const { user } = useContext(UserContext);
   const chatPage = useRef(0);
+  const chatScreen = useRef(null);
   const chatBottom = useRef(null);
-  const chatTop = useRef(null);
+  const chatHeight = useRef(null);
 
   // Fetch user's chats
   useEffect(() => {
@@ -85,6 +86,10 @@ function ChatPage() {
   useEffect(() => {
     if (messages.length > 0 && messages.length <= 20) {
       chatBottom.current.scrollIntoView();
+    } else {
+      // Else it's not the initial load and scroll to the height of the last message before load
+      chatScreen.current.scrollTop =
+        chatScreen.current.scrollHeight - chatHeight.current;
     }
   }, [messages]);
 
@@ -118,6 +123,9 @@ function ChatPage() {
   function handleLoadingMessages(event) {
     // If it is scrolled to the top
     if (event.target.scrollTop === 0) {
+      // Remember the height of the scroll
+      chatHeight.current = event.target.scrollHeight;
+
       // Load new messages
       loadMoreMessages();
     }
@@ -194,6 +202,7 @@ function ChatPage() {
               <div
                 className={styles['chat-screen']}
                 onScroll={handleLoadingMessages}
+                ref={chatScreen}
               >
                 {messages.length === 0 ? (
                   <p className={styles['no-messages-msg']}>
@@ -216,13 +225,7 @@ function ChatPage() {
                             ? false
                             : true
                         }
-                        ref={
-                          messages.length === index + 1
-                            ? chatBottom
-                            : index === 0
-                            ? chatTop
-                            : null
-                        }
+                        ref={messages.length === index + 1 ? chatBottom : null}
                       />
                     );
                   })
