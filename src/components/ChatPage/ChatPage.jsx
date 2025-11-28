@@ -86,7 +86,7 @@ function ChatPage() {
   useEffect(() => {
     if (messages.length > 0 && messages.length <= 20) {
       chatBottom.current.scrollIntoView();
-    } else {
+    } else if (chatScreen.current) {
       // Else it's not the initial load and scroll to the height of the last message before load
       chatScreen.current.scrollTop =
         chatScreen.current.scrollHeight - chatHeight.current;
