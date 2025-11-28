@@ -1,0 +1,66 @@
+.h1 {
+  font-size: 4rem;
+  text-align: center;
+  margin: 4rem auto 1.5rem;
+}
+
+.status {
+  text-align: center;
+  opacity: 0.7;
+  font-size: 2rem;
+}
+
+.h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin: 4rem auto 3rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 1.7rem;
+}
+
+.input {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.input-field {
+  width: 50ch;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  font-size: 1.3rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  transition: transform 0.5s;
+}
+
+.btn:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.change-status-btn {
+  background-color: var(--primary-color);
+  color: var(--on-green-text);
+}
+
+.delete-status-btn {
+  background-color: rgb(222, 15, 15);
+  color: white;
+}

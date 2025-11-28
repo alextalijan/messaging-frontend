@@ -1,5 +1,6 @@
 import UserContext from '../../contexts/UserContext';
 import { useContext, useEffect, useState } from 'react';
+import styles from './ProfilePage.module.css';
 
 function ProfilePage() {
   const { user } = useContext(UserContext);
@@ -53,25 +54,38 @@ function ProfilePage() {
 
   return (
     <>
-      <h1>Hi, {user.username}!</h1>
-      <p>Status : {loading ? 'Loading...' : status ? status : 'No status.'}</p>
-      <h2>Change Status</h2>
-      <form>
-        <label>
+      <h1 className={styles.h1}>Hi, {user.username}!</h1>
+      <p className={styles.status}>
+        Status : {loading ? 'Loading...' : status ? status : 'No status.'}
+      </p>
+      <h2 className={styles.h2}>Change Status</h2>
+      <form className={styles.form}>
+        <label className={styles.input}>
           New status:
           <input
             type="text"
             name="status"
             value={statusInput}
             onChange={handleStatusInput}
+            className={styles['input-field']}
           />
         </label>
-        <button type="button" onClick={() => updateStatus(statusInput)}>
-          Change Status
-        </button>
-        <button type="button" onClick={() => updateStatus(null)}>
-          Delete Status
-        </button>
+        <div className={styles.buttons}>
+          <button
+            type="button"
+            onClick={() => updateStatus(statusInput)}
+            className={`${styles.btn} ${styles['change-status-btn']}`}
+          >
+            Change Status
+          </button>
+          <button
+            type="button"
+            onClick={() => updateStatus(null)}
+            className={`${styles.btn} ${styles['delete-status-btn']}`}
+          >
+            Delete Status
+          </button>
+        </div>
       </form>
     </>
   );
