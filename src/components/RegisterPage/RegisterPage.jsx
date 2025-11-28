@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router';
+import styles from './RegisterPage.module.css';
 
 function RegisterPage() {
   const [username, setUsername] = useState('');
@@ -73,42 +74,54 @@ function RegisterPage() {
 
   return (
     <>
-      <h1>Register</h1>
+      <h1 className={styles.h1}>Register</h1>
       {error && <p>{error}</p>}
-      <form>
-        <label>
-          Username:
+      <form className={styles.form}>
+        <label className={styles.input}>
+          <span className={styles['input-name']}>Username:</span>
           <input
             type="text"
             name="username"
             value={username}
             onChange={handleInputChange}
+            className={styles['input-field']}
           />
         </label>
-        <label>
-          Password:
+        <label className={styles.input}>
+          <span className={styles['input-name']}>Password:</span>
           <input
             type="password"
             name="password"
             value={password}
             onChange={handleInputChange}
+            className={styles['input-field']}
           />
         </label>
-        <label>
-          Confirm Password:
+        <label className={styles.input}>
+          <span className={styles['input-name']}>Confirm Password:</span>
           <input
             type="password"
             name="passwordConfirmation"
             value={passwordConfirmation}
             onChange={handleInputChange}
+            className={styles['input-field']}
           />
         </label>
-        <button type="button" onClick={handleRegistration}>
-          Register
-        </button>
+        <div className={styles['btn-container']}>
+          <button
+            type="button"
+            onClick={handleRegistration}
+            className={styles.btn}
+          >
+            Register
+          </button>
+        </div>
       </form>
-      <p>
-        Already have an account? <Link to="/login">Log In</Link>
+      <p className={styles['login-msg']}>
+        Already have an account?{' '}
+        <Link to="/login" className={styles.link}>
+          Log In
+        </Link>
       </p>
     </>
   );
