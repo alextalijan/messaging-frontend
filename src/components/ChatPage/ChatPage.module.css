@@ -114,4 +114,21 @@
 }
 
 @media (max-width: 620px) {
+  .dashboard-wrapper {
+    grid-template-columns: none;
+    grid-template-rows: 300px 1fr;
+  }
+
+  .chats-list {
+    display: grid;
+    grid-auto-rows: 80px;
+    max-height: 150px;
+    overflow-y: auto;
+    min-height: 1px;
+    border: 5px dotted black;
+  }
+
+  .chats-list > * {
+    min-height: 1px;
+  }
 }
