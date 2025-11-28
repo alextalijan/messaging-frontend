@@ -32,6 +32,8 @@
 
   .chat-name {
     text-align: center;
+    font-size: 1.7rem;
+    align-self: center;
   }
 
   .last-msg {

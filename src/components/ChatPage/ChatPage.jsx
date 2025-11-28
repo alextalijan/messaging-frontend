@@ -159,24 +159,26 @@ function ChatPage() {
           >
             New Chat
           </button>
-          {loadingChats ? (
-            <p>Loading chats...</p>
-          ) : chatsError ? (
-            <p>{chatsError}</p>
-          ) : chats.length === 0 ? (
-            <p>No chats yet.</p>
-          ) : (
-            chats.map((chat) => {
-              return (
-                <Chat
-                  key={chat.id}
-                  name={chat.name}
-                  lastMessage={chat.lastMessage}
-                  openChat={() => setActiveChatId(chat.id)}
-                />
-              );
-            })
-          )}
+          <div className={styles['chats-list']}>
+            {loadingChats ? (
+              <p>Loading chats...</p>
+            ) : chatsError ? (
+              <p>{chatsError}</p>
+            ) : chats.length === 0 ? (
+              <p>No chats yet.</p>
+            ) : (
+              chats.map((chat) => {
+                return (
+                  <Chat
+                    key={chat.id}
+                    name={chat.name}
+                    lastMessage={chat.lastMessage}
+                    openChat={() => setActiveChatId(chat.id)}
+                  />
+                );
+              })
+            )}
+          </div>
         </div>
         <div className={styles['chat-wrapper']}>
           {loadingMessages ? (
