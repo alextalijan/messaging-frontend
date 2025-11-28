@@ -102,3 +102,16 @@
   transform: scale(1);
   cursor: default;
 }
+
+@media (max-width: 940px) {
+  .dashboard-wrapper {
+    grid-template-columns: 150px 1fr;
+  }
+
+  .chats-heading {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 620px) {
+}

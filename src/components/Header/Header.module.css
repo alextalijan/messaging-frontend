@@ -4,6 +4,7 @@
   padding: 1rem 2rem;
   height: 75px;
   background-color: var(--primary-color);
+  align-items: center;
 }
 
 .link {

@@ -20,6 +20,7 @@ function ChatPage() {
   const { user } = useContext(UserContext);
   const chatPage = useRef(0);
   const chatBottom = useRef(null);
+  const chatTop = useRef(null);
 
   // Fetch user's chats
   useEffect(() => {
@@ -213,7 +214,13 @@ function ChatPage() {
                             ? false
                             : true
                         }
-                        ref={messages.length === index + 1 ? chatBottom : null}
+                        ref={
+                          messages.length === index + 1
+                            ? chatBottom
+                            : index === 0
+                            ? chatTop
+                            : null
+                        }
                       />
                     );
                   })
@@ -225,9 +232,8 @@ function ChatPage() {
                   name="message"
                   className={styles['msg-input']}
                   onChange={handleInputChange}
-                >
-                  {messageInput}
-                </textarea>
+                  value={messageInput}
+                ></textarea>
                 <button
                   className={styles['send-msg-btn']}
                   type="button"
